@@ -1,0 +1,29 @@
+{
+  "levelId": 1,
+  "gridSize": {"x": 6, "y": 5},
+  "layout": [
+    "......",
+    "..P...",
+    "..O...",
+    "......",
+    "S.WWWT"
+  ],
+  "orientations": [
+    0,0,0,0,0,0,
+    0,0,0,0,0,0,
+    0,0,1,0,0,0,
+    0,0,0,0,0,0,
+    1,0,0,0,0,0
+  ],
+  "mapping": {
+    "W": "Wire",
+    "A": "AndGate",
+    "O": "OrGate",
+    "N": "NotGate",
+    "S": "Source",
+    "T": "Target",
+    "B": "Obstacle",
+    "P": "Player",
+    ".": "Empty"
+  }
+}
