@@ -19,7 +19,7 @@ namespace UI.Base
             
             //Debug.Log(UIManager.Instance.)
             Debug.Log(name +" Panel dict key ¬O§_¦s¦b" + UIManager.Instance.panelDict.ContainsKey(panel));
-            Debug.Log(UIManager.Instance.panelDict[panel].name);
+            //Debug.Log(UIManager.Instance.panelDict[panel].name);
             if (UIManager.Instance.panelDict.ContainsKey(panel))
             {
                 Debug.Log("Removing panel from UIManager: " + panel.ToString());

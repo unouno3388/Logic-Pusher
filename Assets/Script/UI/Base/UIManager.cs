@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Managers;
 using UnityEngine;
 namespace UI.Base
 {
@@ -12,6 +13,11 @@ namespace UI.Base
         private Dictionary<PanelType, GameObject> prefabDict;
 
         public Dictionary<PanelType, BasePanel> panelDict;
+
+        //GameManager _gameManager;
+        //[Header("References")]
+        //[SerializeField] private GameManager _gameManager; // 需要知道去監聽誰
+        //[SerializeField] private GameObject _nextLevelPanel; // 下一關的 UI 面板
         public static UIManager Instance 
         { 
           get 
@@ -23,27 +29,28 @@ namespace UI.Base
             return _instance;
            }
         }
-        public Transform UIRoot
-        {
-            get
-            {
+        //public Transform UIRoot
+        //{
+        //    get
+        //    {
 
-             
-                if (_uiRoot == null)
-                {
-                    if (GameObject.Find("Canvas")) 
-                    {
-                        _uiRoot = GameObject.Find("Canvas").transform;
-                    }
-                    else
-                    {
-                        _uiRoot = new GameObject("Canvas").transform;
-                    }
-                    return _uiRoot;
-                }
-                return _uiRoot;
-            }
-        }
+               
+        //        if (_uiRoot == null)
+        //        {
+
+        //            if (GameObject.Find("Canvas")) 
+        //            {
+        //                _uiRoot = GameObject.Find("Canvas").transform;
+        //            }
+        //            else
+        //            {
+        //                _uiRoot = new GameObject("Canvas").transform;
+        //            }
+        //            return _uiRoot;
+        //        }
+        //        return _uiRoot;
+        //    }
+        //}
 
         private UIManager()
         {
@@ -60,8 +67,9 @@ namespace UI.Base
                 { PanelType.PausePanel, "PausePanel" },
                 { PanelType.GameOverPanel, "GameOverPanel" },
                 { PanelType.MainMenuPanel, "MainMenuPanel" },              
-                { PanelType.SettingPanel, "SettingPanel" } 
-
+                { PanelType.SettingPanel, "SettingPanel" },
+                { PanelType.WinLevelPanel, "WinLevelPanel"},
+                { PanelType.SelectLevelPanel, "SelectLevelPanel"}
             };
         }
 
@@ -94,8 +102,13 @@ namespace UI.Base
             }
             // 加載Prefab(UI)
             //Debug.Log(panelPrefab.name);
-            GameObject panelObject = GameObject.Instantiate(panelPrefab, UIRoot, false);
+            GameObject panelObject = GameObject.Instantiate(panelPrefab, /*UIRoot*/null, false);
             panel = panelObject.GetComponent<BasePanel>();
+
+            if (panel != null)
+            {
+                panel.OpenPanel(panelType);
+            }
 
             Debug.Log($"介面：{panelType}打開成功");
             panelDict.Add(panelType, panel);
@@ -122,7 +135,9 @@ namespace UI.Base
         PausePanel,
         GameOverPanel,
         MainMenuPanel,
-        SettingPanel
+        SettingPanel,
+        WinLevelPanel,
+        SelectLevelPanel,
     }
 
 }

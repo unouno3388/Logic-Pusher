@@ -22,6 +22,15 @@ namespace Core.Logic
             _gridSystem = gridSystem;
         }
 
+        private bool isLevelWin = false;
+        public bool IsLevelWin()
+        {
+            return isLevelWin;
+        }
+        public void ResetWinFlag()
+        {
+            isLevelWin = false;
+        }
         /// <summary>
         /// 觸發全域電路重算
         /// </summary>
@@ -54,29 +63,76 @@ namespace Core.Logic
             _visited.Add(point);
 
             var block = _gridSystem.GetBlockAt(point);
-            if (block == null || block.Type == BlockType.Empty || block.Type == BlockType.Obstacle) return;
+            if (block == null || block.Type == BlockType.Empty || block.Type == BlockType.Obstacle || block.Type == BlockType.Player) return;
 
-            // 獲取該元件的邏輯策略與目前方向
             var strategy = block.Strategy;
             var orientation = block.Orientation;
 
-            // 獲取四周鄰居的訊號作為輸入
+            // 獲取四周鄰居的訊號
             SignalState[] neighbors = GetInputsFor(point, orientation);
 
             // 計算輸出結果
             bool isPowered = strategy.Calculate(neighbors, orientation);
             SignalState outputSignal = isPowered ? SignalState.High : SignalState.Low;
 
-            // 更新 Model 狀態並觸發視覺事件
+            // 更新視覺
             block.SetSignalState(outputSignal);
 
-            // 如果有輸出電力，則向「輸出方向」繼續傳播
+            // --- 修正開始：區分導線與邏輯閘的傳播方式 ---
             if (outputSignal == SignalState.High)
             {
-                GridPoint nextPoint = GetNextPoint(point, orientation, block.Type);
-                Propagate(nextPoint, SignalState.High);
+                
+                if (block.Type == BlockType.Wire)
+                {
+                    // 導線：向「上下左右」四個方向傳播
+                    // 這裡假設你有定義好的 GridDirection 枚舉，或者手動寫四個方向
+                    GridDirection[] allDirections = { GridDirection.North, GridDirection.East, GridDirection.South, GridDirection.West };
+
+                    foreach (var dir in allDirections)
+                    {
+                        GridPoint neighbor = MoveInDirection(point, dir);
+                        Propagate(neighbor, SignalState.High);
+                    }
+                }
+                else
+                {
+                    // 邏輯閘：只向「前方 (Orientation)」傳播
+                    GridPoint nextPoint = MoveInDirection(point, orientation);
+                    Propagate(nextPoint, SignalState.High);
+                }
             }
+            // --- 修正結束 ---
         }
+        //private void Propagate(GridPoint point, SignalState inputSignal)
+        //{
+        //    // --- 遞迴防呆 (Loop Protection) ---
+        //    if (_visited.Contains(point)) return;
+        //    _visited.Add(point);
+
+        //    var block = _gridSystem.GetBlockAt(point);
+        //    if (block == null || block.Type == BlockType.Empty || block.Type == BlockType.Obstacle) return;
+
+        //    // 獲取該元件的邏輯策略與目前方向
+        //    var strategy = block.Strategy;
+        //    var orientation = block.Orientation;
+
+        //    // 獲取四周鄰居的訊號作為輸入
+        //    SignalState[] neighbors = GetInputsFor(point, orientation);
+
+        //    // 計算輸出結果
+        //    bool isPowered = strategy.Calculate(neighbors, orientation);
+        //    SignalState outputSignal = isPowered ? SignalState.High : SignalState.Low;
+
+        //    // 更新 Model 狀態並觸發視覺事件
+        //    block.SetSignalState(outputSignal);
+
+        //    // 如果有輸出電力，則向「輸出方向」繼續傳播
+        //    if (outputSignal == SignalState.High)
+        //    {
+        //        GridPoint nextPoint = GetNextPoint(point, orientation, block.Type);
+        //        Propagate(nextPoint, SignalState.High);
+        //    }
+        //}
 
         /// <summary>
         /// 根據元件類型與朝向決定下一個傳播點
@@ -126,6 +182,7 @@ namespace Core.Logic
                 if (t.CurrentState == SignalState.High)
                 {
                     // 呼叫 GameManager 觸發 LevelWin
+                    isLevelWin = true;
                 }
             }
         }

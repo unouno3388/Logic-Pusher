@@ -99,6 +99,7 @@ namespace Core.Logic
         public void ResetLevel()
         {
             _blocks.Clear();
+
         }
 
         // --- »²§U¤èªk ---

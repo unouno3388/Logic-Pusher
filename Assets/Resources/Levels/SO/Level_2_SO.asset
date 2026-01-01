@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd7d7d85ddace94684f7d448dfae321, type: 3}
+  m_Name: Level_2_SO
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDataSO
+  levelId: 2
+  gridSize: {x: 8, y: 8}
+  layout:
+  - ........
+  - ....P...
+  - ..O.A...
+  - ......S.
+  - .S..WWWT
+  - ........
+  - ...S....
+  - ........
+  orientations: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000100000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000100000001000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  mapping:
+  - key: W
+    value: Wire
+  - key: A
+    value: AndGate
+  - key: O
+    value: OrGate
+  - key: N
+    value: NotGate
+  - key: S
+    value: Source
+  - key: T
+    value: Target
+  - key: B
+    value: Obstacle
+  - key: P
+    value: Player
+  - key: .
+    value: Empty
