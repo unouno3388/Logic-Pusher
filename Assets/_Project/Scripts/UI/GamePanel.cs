@@ -6,12 +6,14 @@ using DG.Tweening;
 public class GamePanel : BasePanel
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public Button ReturnMainMenu;
+    [SerializeField]
+    Button SettingButton;
     void Awake()
     {
         //transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         //UIManager.Instance.ClosePanel(PanelType.StartPanel);
-        ReturnMainMenu.onClick.AddListener(OnReturnMainMenuClick);
+        SettingButton.onClick.AddListener(OnSettingButtonClick);
+        Debug.Log("GamePanel Awake");
         panel = PanelType.GamePanel;
     }
     void Start()
@@ -25,13 +27,10 @@ public class GamePanel : BasePanel
 
     }
 
-    void OnReturnMainMenuClick()
+    void OnSettingButtonClick()
     {
-        Debug.Log("Return to Main Menu Clicked");
-        // Add logic to return to main menu
-        //UIManager.Instance.OpenPanel(PanelType.MainMenuPanel);
-        ClosePanel();
-        //UIManager.Instance.ClosePanel(PanelType.GamePanel);
+        Debug.Log("Setting Button Clicked");
+        UIManager.Instance.OpenPanel(PanelType.SettingPanel);
     }
     public override void OpenPanel(PanelType panelType)
     {

@@ -101,7 +101,7 @@ namespace UI
             Debug.Log($"選擇了關卡 ID: {levelId}");
             // 在這裡加入載入關卡的邏輯
             UIManager.Instance.ClosePanel(PanelType.SelectLevelPanel);
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("Game");
             GameManager.Instance.SelectLevel(levelId);
             // 例如：SceneManager.LoadScene("Level_" + levelId);
         }
