@@ -26,7 +26,7 @@ namespace Unity.Managers
         [SerializeField] private LevelLoader _levelLoader;
 
         // 核心系統 (純 C#)
-        private GridSystem _gridSystem;
+        private IGridSystem _gridSystem;
         private ICircuitSystem _circuitSystem;
 
         // 輸入鎖 (防止移動動畫中重複輸入)
@@ -133,7 +133,7 @@ namespace Unity.Managers
             DestroyAllChildren();
             _circuitSystem.ResetWinFlag();
             //_levelLoader.LoadLevel(_startLevelId, _gridSystem);
-            _levelLoader.LoadLevelFromSO(_startLevelId, _gridSystem);
+            _levelLoader.LoadLevelFromSO(_startLevelId, (GridSystem)_gridSystem);
             // 3. 初始電路計算
             _circuitSystem.Recalculate();
         }
@@ -145,7 +145,7 @@ namespace Unity.Managers
 
             //_levelLoader.LoadLevel(_startLevelId, _gridSystem);
             //_startLevelId ++;
-            _levelLoader.LoadLevelFromSO(++_startLevelId, _gridSystem);
+            _levelLoader.LoadLevelFromSO(++_startLevelId, (GridSystem)_gridSystem);
             // 3. 初始電路計算
             _circuitSystem.Recalculate();
         }
@@ -156,7 +156,7 @@ namespace Unity.Managers
             _circuitSystem.ResetWinFlag();
 
             //_levelLoader.LoadLevel(_startLevelId, _gridSystem);
-            _levelLoader.LoadLevelFromSO(_startLevelId, _gridSystem);
+            _levelLoader.LoadLevelFromSO(_startLevelId, (GridSystem)_gridSystem);
             // 3. 初始電路計算
             _circuitSystem.Recalculate();
         }
