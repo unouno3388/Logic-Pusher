@@ -69,12 +69,15 @@ namespace Unity.Managers
         /// <summary>
         ///New Version: 從 SO 資料庫載入關卡
         /// </summary>
-        public void LoadLevelFromSO(int levelId, GridSystem gridSystem)
+        /// <param name="levelId">關卡ID</param>
+        /// <param name="gridSystem">網格系統</param>
+        /// <returns>是否有此關卡</returns>
+        public bool LoadLevelFromSO(int levelId, GridSystem gridSystem)
         {
             if (levelDatabase == null)
             {
                 Debug.LogError("LevelLoader: LevelDatabaseSO 未指定！");
-                return;
+                return false;
             }
 
             // 根據 ID 尋找對應的 SO 檔案
@@ -83,11 +86,12 @@ namespace Unity.Managers
             if (data == null)
             {
                 Debug.LogError($"LevelLoader: 在資料庫中找不到 ID 為 {levelId} 的關卡。");
-                return;
+                return false;
             }
 
             // 開始執行生成邏輯
             ExecuteLoad(data, gridSystem);
+            return true;
         }
 
         private void ExecuteLoad(LevelDataSO levelData, GridSystem gridSystem)

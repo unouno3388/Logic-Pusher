@@ -61,10 +61,9 @@ namespace Unity.Managers
 
         private void Start()
         {
-            // 2. 載入關卡
+            // 載入關卡 測試用
             //_levelLoader.LoadLevel(_startLevelId, _gridSystem);
             //_levelLoader.LoadLevelFromSO(_startLevelId, _gridSystem);
-            //// 3. 初始電路計算
             //_circuitSystem.Recalculate();
         }
 
@@ -92,7 +91,6 @@ namespace Unity.Managers
 
             GridDirection? moveDir = null;
 
-            // [修正重點] 改用 Keyboard.current.xxxKey.wasPressedThisFrame
             if (Keyboard.current.wKey.wasPressedThisFrame || Keyboard.current.upArrowKey.wasPressedThisFrame)
                 moveDir = GridDirection.North;
             else if (Keyboard.current.sKey.wasPressedThisFrame || Keyboard.current.downArrowKey.wasPressedThisFrame)
@@ -145,12 +143,17 @@ namespace Unity.Managers
 
             //_levelLoader.LoadLevel(_startLevelId, _gridSystem);
             //_startLevelId ++;
-            _levelLoader.LoadLevelFromSO(++_startLevelId, (GridSystem)_gridSystem);
+            if (! _levelLoader.LoadLevelFromSO(++_startLevelId, (GridSystem)_gridSystem))
+            {
+                _startLevelId--;
+                Debug.Log("已無下一關卡");
+            }
             // 3. 初始電路計算
             _circuitSystem.Recalculate();
         }
         public void SelectLevel(int _startLevelId) 
         {
+            this._startLevelId = _startLevelId;
             _gridSystem.ResetLevel();
             DestroyAllChildren();
             _circuitSystem.ResetWinFlag();
