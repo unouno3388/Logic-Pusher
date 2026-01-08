@@ -14,6 +14,7 @@
 1. **DOTween (HOTween v2)**: 負責方塊位移與 UI 的平滑過渡動畫。
 2. **Input System Package**: 處理玩家的鍵盤輸入映射。
 3. **TextMeshPro**: 用於高品質文字顯示。
+4. **Cinemachine** 
 
 ### 編譯步驟
 1. 複製本倉庫至本地路徑。
